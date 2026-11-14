@@ -1,0 +1,22 @@
+# La liste de mes conteneurs
+services:
+
+  # Service 1 : la base de données (son nom "db" sera son adresse)
+  db:
+    image: postgres:16                # image toute faite
+    environment:                      # équivalent de -e
+      POSTGRES_PASSWORD: secret
+    volumes:                          # équivalent de -v
+      - mes-donnees:/var/lib/postgresql/data
+
+  # Service 2 : mon API
+  api:
+    build: .                          # construit l'image avec le Dockerfile du dossier
+    ports:                            # équivalent de -p
+      - "8000:8000"
+    depends_on:                       # démarre après la base
+      - db
+
+# Déclaration du volume utilisé plus haut
+volumes:
+  mes-donnees:
