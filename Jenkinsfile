@@ -1,8 +1,8 @@
-// Pipeline as Code : ce fichier vit dans le dépôt Git, avec le code
+// Pipeline as Code : ce fichier vit dans le dépôt Git avec le code
 pipeline {
     agent any
 
-    // Déclencheur : Jenkins vérifie GitHub toutes les minutes
+    // Jenkins vérifie GitHub toutes les minutes
     // et lance le pipeline s'il y a un nouveau commit
     triggers {
         pollSCM('* * * * *')
@@ -26,11 +26,12 @@ pipeline {
         // 3. Tester : main.py doit se charger sans erreur
         stage('Test') {
             steps {
-                sh 'docker run --rm mon-api:${BUILD_NUMBER} python -c "import main; print(\'Test OK\')"'
+                sh 'docker run --rm mon-api:${BUILD_NUMBER} python -c "import main"'
+                sh 'echo "Test OK"'
             }
         }
 
-        // 4. Déployer : remplacer l'ancien conteneur par le nouveau
+        // 4. Déployer : supprimer l'ancien conteneur, puis lancer le nouveau
         stage('Deploy') {
             steps {
                 sh 'docker rm -f api-jenkins || true'
@@ -39,13 +40,13 @@ pipeline {
         }
     }
 
-    // Actions finales, exécutées selon le résultat
+    // Actions finales selon le résultat
     post {
         success {
-            echo 'Pipeline réussi : application déployée.'
+            echo 'Pipeline reussi : application deployee.'
         }
         failure {
-            echo 'Pipeline échoué : rien n\'a été déployé.'
+            echo 'Pipeline echoue : rien na ete deploye.'
         }
     }
 }
