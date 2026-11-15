@@ -8,4 +8,4 @@ app = FastAPI()
 @app.get("/")
 def accueil():
     # Elle renvoie un petit message
-    return {"message": "Bonjour depuis Docker !"}
+    return {"message": "Bonjour depuis Docker, votre appli est deploye avec succes !"}
