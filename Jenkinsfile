@@ -31,6 +31,16 @@ pipeline {
             }
         }
 
+                // Scan de sécurité : Trivy cherche les failles connues dans l'image
+        stage('Scan') {
+            steps {
+                // --severity : on ne regarde que HIGH et CRITICAL
+                // --ignore-unfixed : on ignore les failles sans correction disponible
+                // --exit-code 0 : on affiche le rapport sans bloquer (mode "observation")
+                sh 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache/ aquasec/trivy:latest image --severity HIGH,CRITICAL --ignore-unfixed --exit-code 0 mon-api:${BUILD_NUMBER}'
+            }
+        }
+
                 // 4. Envoyer l'image sur Docker Hub (seulement si le test a réussi)
         stage('Push') {
             steps {
