@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 
 # On crée l'application
-app = FastAPI()
+app = FastAPI(
 
 # Quand quelqu'un ouvre l'adresse "/", cette fonction répond
 @app.get("/")
