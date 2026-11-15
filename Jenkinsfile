@@ -31,6 +31,26 @@ pipeline {
             }
         }
 
+                // 4. Envoyer l'image sur Docker Hub (seulement si le test a réussi)
+        stage('Push') {
+            steps {
+                // Récupère le login/token stockés dans Jenkins, sans les écrire ici
+                withCredentials([usernamePassword(
+                        credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'DH_USER',
+                        passwordVariable: 'DH_PASS')]) {
+                    // Connexion : le token passe par l'entrée standard (jamais affiché)
+                    sh 'echo $DH_PASS | docker login -u $DH_USER --password-stdin'
+                    // Deuxième nom de l'image, avec le compte Docker Hub
+                    sh 'docker tag mon-api:${BUILD_NUMBER} $DH_USER/mon-api:${BUILD_NUMBER}'
+                    // Envoi
+                    sh 'docker push $DH_USER/mon-api:${BUILD_NUMBER}'
+                    // Déconnexion
+                    sh 'docker logout'
+                }
+            }
+        }
+
         // 4. Déployer : supprimer l'ancien conteneur, puis lancer le nouveau
         stage('Deploy') {
             steps {
