@@ -67,9 +67,9 @@ Puis ouvrir http://localhost:8000
 
 ## Captures d'écran
 
-![Pipeline Jenkins](docs/stage-view.png)
-![Rapport Trivy](docs/trivy.png)
-![Image sur Docker Hub](docs/dockerhub.png)
+![Pipeline Jenkins](C:\Users\FlexTech\Documents\DevOps-DevSecops\mon-api\docs/Stage-view.png)
+![Rapport Trivy](C:\Users\FlexTech\Documents\DevOps-DevSecops\mon-api\docs/Trivy.png)
+![Image sur Docker Hub](C:\Users\FlexTech\Documents\DevOps-DevSecops\mon-api\docs/Dockerhub.png)
 
 ## Ce que j'ai appris
 
